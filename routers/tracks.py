@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
+
 from model import TrackModel, TrackUpdateModel
 
 tracks_router = APIRouter()
@@ -25,6 +26,11 @@ def get_track_by_id(track_id: int) -> TrackModel:
         if track.id == track_id:
             return track
 
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="The track does not exist"
+    )
+
 
 @tracks_router.delete("/tracks/{track_id}")
 def get_track_by_id(track_id: int) -> dict:
@@ -33,6 +39,11 @@ def get_track_by_id(track_id: int) -> dict:
         if track.id == track_id:
             tracks.pop(index)
             return {"message": "Track deleted"}
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="The track does not exist"
+    )
 
 
 @tracks_router.put("/tracks/{track_id}")
@@ -44,3 +55,8 @@ def get_track_by_id(track_id: int, track_dto: TrackUpdateModel) -> TrackModel:
         if track.id == track_id:
             track.title = track_dto.title
             return track
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="The track does not exist"
+    )
