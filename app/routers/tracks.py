@@ -1,17 +1,17 @@
+from typing import List
+
 from fastapi import APIRouter, HTTPException, status
 
-from model import TrackModel, TrackUpdateModel
+from app.schemas import TrackModel, TrackUpdateModel
 
 tracks_router = APIRouter()
 
 tracks = []
 
 
-@tracks_router.get("/tracks", response_model=list[TrackModel])
-def get_tracks() -> dict:
-    return {
-        "tracks": tracks
-    }
+@tracks_router.get("/tracks", response_model=List[TrackModel])
+def get_tracks():
+    return tracks
 
 
 @tracks_router.post("/tracks")
