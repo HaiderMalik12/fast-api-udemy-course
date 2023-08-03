@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from enum import Enum
 
 app = FastAPI()
 
@@ -36,3 +37,24 @@ def get_users1():
 @app.get("/users")
 def get_users():
     return ["john", "sandy"]
+
+
+class ApplicationType(str, Enum):
+    LOAN = 'loan'
+    BUSINESS_FINANCING = "business_financing"
+    CAR_FINANCING = "car_financing"
+    HOME_FINANCING = "home_financing"
+
+
+@app.get('/application/{app_type}')
+def get_application(app_type: ApplicationType):
+    print(app_type)
+    if app_type is ApplicationType.LOAN:
+        return {"app_type": app_type}
+    if app_type.value == 'business_financing':
+        return {"app_type": app_type}
+    if app_type.value == 'car_financing':
+        return {"app_type": app_type}
+    if app_type.value == 'home_financing':
+        return {"app_type": app_type}
+    return {"app_type": app_type}
