@@ -16,3 +16,23 @@ def get_item_by_id(item_id: int):
 @app.get("/albums/{album_id}")
 def get_album(album_id: int):
     return {"album_id": album_id}
+
+
+@app.get("/users/me")
+def get_user():
+    return {"user": "the current user"}
+
+
+@app.get("/users/{user_id}")
+def get_user_by_id(user_id: str):
+    return {"user_id": user_id}
+
+
+@app.get("/users")
+def get_users1():
+    return ["ALi", "Sam"]
+
+
+@app.get("/users")
+def get_users():
+    return ["john", "sandy"]
