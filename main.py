@@ -58,3 +58,33 @@ def get_application(app_type: ApplicationType):
     if app_type.value == 'home_financing':
         return {"app_type": app_type}
     return {"app_type": app_type}
+
+# Query Parameters
+
+
+@app.get("/songs")
+def get_songs(skip: int = 1, limit: int = 10, page: int = 1, per_page: int = 10):
+    return {
+        "skip": skip,
+        "limit": limit,
+        "page": page,
+        "per_page": per_page
+    }
+
+# Multiple Query Parameters
+
+
+# @app.get("/playlist/{playlist_id}/songs/{song_id}")
+# def get_songs_by_playlist(playlist_id: int, song_id: int):
+#     return {
+#         "song_id": song_id,
+#         "playlist_id": playlist_id
+#     }
+
+
+@app.get("/playlist/{playlist_id}/songs/{song_id}")
+def get_songs_by_playlist(playlist_id: int, song_id: int, q: str = ""):
+    return {
+        "song_id": song_id,
+        "playlist_id": playlist_id
+    }
