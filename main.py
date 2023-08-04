@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from enum import Enum
+from pydantic import BaseModel
+from datetime import date
 
 app = FastAPI()
 
@@ -87,4 +89,24 @@ def get_songs_by_playlist(playlist_id: int, song_id: int, q: str = ""):
     return {
         "song_id": song_id,
         "playlist_id": playlist_id
+    }
+
+
+class SongModel(BaseModel):
+    title: str
+    desc: str
+    releasedDate: date
+    album: str | None = None  # Optional property
+
+
+@app.post("/songs")
+def create_song(song: SongModel):
+    return song
+
+
+@app.put("/songs/{song_id}")
+def create_song(song: SongModel, song_id: int):
+    return {
+        "song_id": song_id,
+        **song.model_dump()
     }
