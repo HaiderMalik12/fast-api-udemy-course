@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 
 from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate
 from app.dependencies import get_db
-from app.crud.tracks_crud import create_track, get_tracks, get_track_by_id
+from app.crud.tracks_crud import create_track, get_tracks, get_track_by_id, delete_track_by_id
 
 tracks_router = APIRouter()
 
@@ -28,17 +28,8 @@ def get_track_route(track_id: int, db: Session = Depends(get_db)):
 
 
 @tracks_router.delete("/tracks/{track_id}")
-def delete_track_by_id(track_id: int) -> dict:
-    for index in range(len(tracks)):
-        track = tracks[index]
-        if track.id == track_id:
-            tracks.pop(index)
-            return {"message": "Track deleted"}
-
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="The track does not exist"
-    )
+def delete_track_route(track_id: int, db: Session = Depends(get_db)):
+    return delete_track_by_id(db=db, track_id=track_id)
 
 
 @tracks_router.put("/tracks/{track_id}")

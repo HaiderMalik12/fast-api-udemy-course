@@ -18,3 +18,11 @@ def get_tracks(db: Session):
 
 def get_track_by_id(db: Session, track_id: int):
     return db.query(Track).get(track_id)
+
+
+def delete_track_by_id(db: Session, track_id):
+    track = db.query(Track).get(track_id)
+    db.delete(track)
+    db.commit()
+    db.close()
+    return 'Track deleted'
