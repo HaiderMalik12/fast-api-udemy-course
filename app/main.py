@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from .routers import tracks_router
+from .database import engine
 
 app = FastAPI()
 
