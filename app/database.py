@@ -9,9 +9,9 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 Session = sessionmaker(bind=engine, autoflush=False)
 
 
-conn = engine.connect()
-print('connection happened')
-conn.close()
-print('connection closed')
+# conn = engine.connect()
+# print('connection happened')
+# conn.close()
+# print('connection closed')
 
 Base = declarative_base()
