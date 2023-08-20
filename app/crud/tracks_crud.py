@@ -10,3 +10,7 @@ def create_track(db: Session, track_dto: TrackCreate):
     db.commit()
     db.refresh(db_track)
     return db_track
+
+
+def get_tracks(db: Session):
+    return db.query(Track).all()

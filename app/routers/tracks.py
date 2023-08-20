@@ -5,16 +5,16 @@ from fastapi import APIRouter, HTTPException, status, Depends
 
 from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate
 from app.dependencies import get_db
-from app.crud.tracks_crud import create_track
+from app.crud.tracks_crud import create_track, get_tracks
 
 tracks_router = APIRouter()
 
 tracks = []
 
 
-@tracks_router.get("/tracks", response_model=List[TrackModel])
-def get_tracks():
-    return tracks
+@tracks_router.get("/tracks", response_model=List[Track])
+def get_tracks_route(db: Session = Depends(get_db)):
+    return get_tracks(db=db)
 
 
 @tracks_router.post("/tracks", response_model=Track)
