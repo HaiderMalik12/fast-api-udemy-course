@@ -14,3 +14,7 @@ def create_track(db: Session, track_dto: TrackCreate):
 
 def get_tracks(db: Session):
     return db.query(Track).all()
+
+
+def get_track_by_id(db: Session, track_id: int):
+    return db.query(Track).get(track_id)

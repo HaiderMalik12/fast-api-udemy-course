@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 
 from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate
 from app.dependencies import get_db
-from app.crud.tracks_crud import create_track, get_tracks
+from app.crud.tracks_crud import create_track, get_tracks, get_track_by_id
 
 tracks_router = APIRouter()
 
@@ -23,19 +23,12 @@ def create_track_route(track_dto: TrackCreate, db: Session = Depends(get_db)):
 
 
 @tracks_router.get("/tracks/{track_id}")
-def get_track_by_id(track_id: int) -> TrackModel:
-    for track in tracks:
-        if track.id == track_id:
-            return track
-
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="The track does not exist"
-    )
+def get_track_route(track_id: int, db: Session = Depends(get_db)):
+    return get_track_by_id(db, track_id)
 
 
 @tracks_router.delete("/tracks/{track_id}")
-def get_track_by_id(track_id: int) -> dict:
+def delete_track_by_id(track_id: int) -> dict:
     for index in range(len(tracks)):
         track = tracks[index]
         if track.id == track_id:
@@ -49,7 +42,7 @@ def get_track_by_id(track_id: int) -> dict:
 
 
 @tracks_router.put("/tracks/{track_id}")
-def get_track_by_id(track_id: int, track_dto: TrackUpdateModel) -> TrackModel:
+def update_track_by_id(track_id: int, track_dto: TrackUpdateModel) -> TrackModel:
     tracks_len_response = len(tracks)
     print(tracks_len_response)
     for index in range(tracks_len_response):
