@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException, status
 
-from app.schemas import TrackModel, TrackUpdateModel
+from app.schemas import TrackModel, TrackUpdateModel, Track
 
 tracks_router = APIRouter()
 
@@ -14,8 +14,8 @@ def get_tracks():
     return tracks
 
 
-@tracks_router.post("/tracks")
-def create_track(track: TrackModel) -> TrackModel:
+@tracks_router.post("/tracks", response_model=Track)
+def create_track(track: TrackModel):
     tracks.append(track)
     return track
 

@@ -1,4 +1,22 @@
 from pydantic import BaseModel
+from datetime import date, time
+
+
+class TrackBase(BaseModel):
+    title: str
+    released_date: date | None = None
+    duration: time | None = None
+
+
+class TrackCreate(TrackBase):
+    pass
+
+
+class Track(TrackBase):
+    id: int
+
+    class Config:
+        form_attributes = True
 
 
 class TrackModel(BaseModel):
