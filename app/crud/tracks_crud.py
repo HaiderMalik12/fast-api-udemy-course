@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.schemas import TrackCreate
+from app.schemas import TrackCreate, TrackUpdate
 from app.models import Track
 
 
@@ -26,3 +26,12 @@ def delete_track_by_id(db: Session, track_id):
     db.commit()
     db.close()
     return 'Track deleted'
+
+
+def update_track_by_id(db: Session, track_id: int, track_dto: TrackUpdate):
+    track = db.query(Track).get(track_id)
+    track.title = track_dto.title
+    track.released_date = track_dto.released_date
+    track.duration = track_dto.duration
+    db.commit()
+    return track

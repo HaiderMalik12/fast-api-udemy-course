@@ -12,6 +12,12 @@ class TrackCreate(TrackBase):
     pass
 
 
+class TrackUpdate(BaseModel):
+    title: str | None = None
+    released_date: date | None = None
+    duration: time | None = None
+
+
 class Track(TrackBase):
     id: int
 

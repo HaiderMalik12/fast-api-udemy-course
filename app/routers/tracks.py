@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 
 from fastapi import APIRouter, HTTPException, status, Depends
 
-from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate
+from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate, TrackUpdate
 from app.dependencies import get_db
-from app.crud.tracks_crud import create_track, get_tracks, get_track_by_id, delete_track_by_id
+from app.crud.tracks_crud import create_track, get_tracks, get_track_by_id, delete_track_by_id, update_track_by_id
 
 tracks_router = APIRouter()
 
@@ -22,7 +22,7 @@ def create_track_route(track_dto: TrackCreate, db: Session = Depends(get_db)):
     return create_track(db=db, track_dto=track_dto)
 
 
-@tracks_router.get("/tracks/{track_id}")
+@tracks_router.get("/tracks/{track_id}", response_model=Track)
 def get_track_route(track_id: int, db: Session = Depends(get_db)):
     return get_track_by_id(db, track_id)
 
@@ -32,17 +32,6 @@ def delete_track_route(track_id: int, db: Session = Depends(get_db)):
     return delete_track_by_id(db=db, track_id=track_id)
 
 
-@tracks_router.put("/tracks/{track_id}")
-def update_track_by_id(track_id: int, track_dto: TrackUpdateModel) -> TrackModel:
-    tracks_len_response = len(tracks)
-    print(tracks_len_response)
-    for index in range(tracks_len_response):
-        track = tracks[index]
-        if track.id == track_id:
-            track.title = track_dto.title
-            return track
-
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="The track does not exist"
-    )
+@tracks_router.put("/tracks/{track_id}", response_model=Track)
+def update_track_route(track_id: int, track_dto: TrackUpdate, db: Session = Depends(get_db)):
+    return update_track_by_id(db=db, track_id=track_id, track_dto=track_dto)
