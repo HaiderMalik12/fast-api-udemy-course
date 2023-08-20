@@ -6,7 +6,7 @@ SQLALCHEMY_DATABASE_URL = "postgresql://postgres:root@localhost/tracks_project"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-Session = sessionmaker(bind=engine, autoflush=False)
+SessionLocal = sessionmaker(bind=engine, autoflush=False)
 
 
 # conn = engine.connect()
