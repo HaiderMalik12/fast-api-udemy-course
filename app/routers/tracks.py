@@ -1,8 +1,11 @@
 from typing import List
+from sqlalchemy.orm import Session
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 
-from app.schemas import TrackModel, TrackUpdateModel, Track
+from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate
+from app.dependencies import get_db
+from app.crud.tracks_crud import create_track
 
 tracks_router = APIRouter()
 
@@ -15,9 +18,8 @@ def get_tracks():
 
 
 @tracks_router.post("/tracks", response_model=Track)
-def create_track(track: TrackModel):
-    tracks.append(track)
-    return track
+def create_track_route(track_dto: TrackCreate, db: Session = Depends(get_db)):
+    return create_track(db=db, track_dto=track_dto)
 
 
 @tracks_router.get("/tracks/{track_id}")

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from schemas import TrackCreate
-from models import Track
+from app.schemas import TrackCreate
+from app.models import Track
 
 
 def create_track(db: Session, track_dto: TrackCreate):
