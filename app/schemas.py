@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import date, time
 
 
@@ -32,3 +32,18 @@ class TrackModel(BaseModel):
 
 class TrackUpdateModel(BaseModel):
     title: str
+
+
+class UserBase(BaseModel):
+    email: EmailStr
+
+
+class UserCreate(UserBase):
+    password: str
+
+
+class User(UserBase):
+    id: int
+
+    class Config:
+        form_attributes = True
