@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routers import tracks_router, users_router
+from .routers import tracks_router, users_router, auth_router
 from .database import engine
 from .models import Base
 
@@ -15,3 +15,4 @@ async def root():
 
 app.include_router(tracks_router)
 app.include_router(users_router)
+app.include_router(auth_router)

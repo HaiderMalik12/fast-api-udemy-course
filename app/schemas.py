@@ -47,3 +47,8 @@ class User(UserBase):
 
     class Config:
         form_attributes = True
+
+
+class Login(BaseModel):
+    email: EmailStr
+    password: str
