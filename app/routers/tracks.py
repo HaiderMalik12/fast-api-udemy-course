@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from app.schemas import TrackModel, TrackUpdateModel, Track, TrackCreate, TrackUpdate
 from app.dependencies import get_db
 from app.crud.tracks_crud import create_track, get_tracks, get_track_by_id, delete_track_by_id, update_track_by_id
+from .. import oauth2
 
 tracks_router = APIRouter(
     prefix="/tracks",
@@ -20,8 +21,15 @@ def get_tracks_route(db: Session = Depends(get_db)):
     return get_tracks(db=db)
 
 
+"""
+apply authentication, only authenticated user can access this route
+"""
+
+
 @tracks_router.post("/", response_model=Track)
-def create_track_route(track_dto: TrackCreate, db: Session = Depends(get_db)):
+def create_track_route(track_dto: TrackCreate, db: Session = Depends(get_db), payload=Depends(oauth2.get_current_user)):
+    print(f"payload {payload}")
+    # Authenticate user from the db
     return create_track(db=db, track_dto=track_dto)
 
 
