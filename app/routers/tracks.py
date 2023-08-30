@@ -28,7 +28,7 @@ apply authentication, only authenticated user can access this route
 
 @tracks_router.post("/", response_model=Track)
 def create_track_route(track_dto: TrackCreate, db: Session = Depends(get_db), payload=Depends(oauth2.get_current_user)):
-    print(f"payload {payload}")
+    # print(f"payload {payload.__dict__}")
     # Authenticate user from the db
     return create_track(db=db, track_dto=track_dto)
 
